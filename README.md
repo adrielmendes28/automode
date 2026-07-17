@@ -1,27 +1,39 @@
-# automode
+<p align="center">
+  <img src="docs/logo.svg" alt="automode" width="440">
+</p>
 
-**A mod menu for Claude Code and Codex.** It keeps your session alive across usage
-limits, and puts your limit windows where your workday actually is.
+<p align="center">
+  <strong>A mod menu for Claude Code and Codex.</strong><br>
+  It keeps your session alive across usage limits, and puts your limit windows
+  where your workday actually is.
+</p>
 
-```
-❯ claude
-...
-■ You've hit your session limit · resets 6:20pm (America/Sao_Paulo)
+<p align="center">
+  <a href="https://github.com/adrielmendes28/automode/actions/workflows/tests.yml"><img src="https://github.com/adrielmendes28/automode/actions/workflows/tests.yml/badge.svg" alt="tests"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/python-3.11%2B-blue.svg" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/dependencies-none-brightgreen.svg" alt="no dependencies">
+</p>
 
-   What do you want to do?
-   ❯ 1. Upgrade your plan
-     2. Upgrade to Team plan
-     3. Stop and wait for limit to reset
-
-[18:21:04] automode: picked option 3, sent 'continue'
-```
-
-You keep the normal Claude Code / Codex interface — same colors, same shortcuts,
-same everything. `ctrl+g` opens the mod menu on top of it.
-
-Pure Python standard library. No dependencies.
+<p align="center">
+  <a href="#getting-started">Getting started</a> ·
+  <a href="#1-auto-continue">Auto continue</a> ·
+  <a href="#2-auto-ping">Auto ping</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a>
+</p>
 
 ---
+
+You keep the normal Claude Code / Codex interface — same colors, same shortcuts, same
+everything. `ctrl+g` opens the mod menu on top of it, wearing the color of whichever
+agent it is covering.
+
+<p align="center">
+  <img src="docs/menu-claude.png" alt="The automode menu over Claude Code" width="49%">
+  <img src="docs/menu-codex.png" alt="The automode menu over Codex" width="49%">
+</p>
+
+Pure Python standard library. No dependencies.
 
 ## The two features
 
@@ -32,6 +44,11 @@ not at your desk, so the work just sits there until you remember to come back an
 type `continue`.
 
 automode reads the message, works out the reset time, waits, and types it for you.
+
+![Auto continue picking the session back up after the limit reset](docs/auto-continue.png)
+
+That is a real session: `oi` hits the session limit, automode sees it resets at 12am,
+waits, types `continue` on its own, and Claude picks the work back up.
 
 It also answers the menu the agent leaves on screen. That part matters more than it
 sounds: hitting the limit does not just print a message, it parks the agent on a
@@ -212,28 +229,20 @@ Recognised formats — run `automode doctor` to watch them all parse:
 
 ## Contributing
 
-Issues and pull requests are welcome. The project has no dependencies and never
-should — the standard library covers all of it.
+Issues and pull requests are welcome — see **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+
+The most valuable thing you can report is **a limit message we do not recognise**. The
+whole project rests on reading a sentence that Anthropic and OpenAI can change whenever
+they like, so a paste of the exact wording is worth more than a patch.
 
 ```bash
-python3 -m unittest discover -s tests -t .   # the whole suite
+python3 -m unittest discover -s tests -t .   # the whole suite, no dependencies
 python3 -m automode doctor                   # detector against real messages
 python3 -m automode -- bash                  # exercise the wrapper, no quota spent
 ```
 
-Some notes for anyone touching the code:
-
-- **The clock is injectable** (`Controller(config, clock=...)`), so the scheduling
-  tests wait until 5am in milliseconds instead of hours. Please keep it that way.
-- **`tests/test_pty_overlay.py` drives a real PTY** — it spawns automode, presses
-  keys, and reads what a terminal would have received. Anything about the menu
-  opening or closing belongs there; mocks will not catch it.
-- **A new limit message** goes in `detect.SAMPLES`, a new blocking menu in
-  `dialogs.PROMPTS`. Both are covered by `automode doctor` and by tests.
-- **A new language** is a copy of the `"en"` block in `automode/i18n.py` with the
-  values translated. Missing keys fall back to English rather than crashing.
-- Logs are deliberately English-only — a bug report is easier to read in one language.
+By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
