@@ -79,6 +79,11 @@ keyboard instead of while you are asleep or gone for the day.
 Nobody wakes up at 5am to type "hi". automode does it for you, on both Claude and
 Codex, with the terminal closed and you asleep.
 
+![Auto ping opening the usage window on its own](docs/auto-ping.png)
+
+Nobody typed that `oi` — the ping did, at the hour you picked. The window is open now,
+and it will renew while you are at the keyboard instead of while you are asleep.
+
 ## Getting started
 
 ```bash
