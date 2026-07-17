@@ -65,6 +65,7 @@ CATALOG: dict[str, dict[str, str]] = {
         "cli.tagline": "keep claude/codex working across usage limits",
         "cli.hotkey_line": "Inside a session, {hotkey} opens the menu over the agent.",
         "cli.unknown_command": "unknown command: {command}",
+        "hotkey.join": " or ",
     },
     "pt": {
         "menu.keys": " setas movem · espaco altera · s salva · q volta ",
@@ -112,6 +113,7 @@ CATALOG: dict[str, dict[str, str]] = {
         "cli.tagline": "mantem o claude/codex trabalhando apesar dos limites",
         "cli.hotkey_line": "Dentro da sessao, {hotkey} abre o menu por cima do agente.",
         "cli.unknown_command": "comando desconhecido: {command}",
+        "hotkey.join": " ou ",
     },
 }
 

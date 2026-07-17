@@ -109,11 +109,26 @@ def install_aliases() -> int:
             return 1
         print(f"  aliases added to {rc}")
 
-    print(f"\nOpen a new terminal (or `source {rc}`), then just use `claude`.")
-    print("  claude          the agent, with the mods")
-    print("  \\claude         the agent, bare (the backslash skips the alias)")
-    print("  ctrl+g          the menu, from inside a session")
+    # Aliases live in the shell, not in the file: a terminal that is already
+    # open kept whatever it read at startup and will not pick these up.
+    print(f"\n  NOTE: your open terminals do not have these yet.")
+    print(f"  Run `source {rc}` in each, or just open a new one.\n")
+    print("Then:")
+    for key, what in (
+        ("claude", "the agent, with the mods"),
+        ("\\claude", "the agent, bare (the backslash skips the alias)"),
+        (hotkey(), "the menu, from inside a session"),
+    ):
+        print(f"  {key:<16} {what}")
     return 0
+
+
+def hotkey() -> str:
+    """Whatever hotkey is actually configured — never assume the default."""
+    from . import config as configmod
+    from .overlay import describe_hotkey
+
+    return describe_hotkey(str(configmod.load().get("hotkey", "ctrl+g")))
 
 
 def uninstall_aliases() -> int:

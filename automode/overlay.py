@@ -1,8 +1,13 @@
-"""The Alt+G overlay: the menu on top of a running agent.
+"""The hotkey overlay: the menu on top of a running agent.
+
+Several hotkeys can be live at once (`ctrl+g, alt+g` by default), because which
+one reaches us depends on the terminal: macOS Terminal.app sends Option+G as
+"©" unless you turn on "Use Option as Meta key", so ctrl+g is the one that
+always arrives.
 
 Two problems have to be solved to put a menu over someone else's TUI:
 
-1. Telling Alt+G apart from a real Escape. A terminal sends Alt+G as ESC then
+1. Telling alt+g apart from a real Escape. A terminal sends alt+g as ESC then
    'g' with no gap, so both bytes land in one read(). A human pressing Esc and
    then typing g cannot beat that — the bytes arrive in separate reads. So the
    hotkey only counts when it is the whole chunk.
@@ -18,6 +23,7 @@ from __future__ import annotations
 
 import re
 
+from .i18n import t
 from .menu import ALT_SCREEN_OFF, ALT_SCREEN_ON, CURSOR_HIDE, CURSOR_SHOW, Menu
 from .theme import Theme, for_agent
 
@@ -60,8 +66,9 @@ def parse_hotkeys(spec: str) -> list[bytes]:
 
 
 def describe_hotkey(spec: str) -> str:
+    """The configured hotkeys, spelled for a human: "ctrl+g or alt+g"."""
     parts = [p.strip().lower() for p in str(spec).split(",") if p.strip()]
-    return " ou ".join(parts) if parts else "ctrl+g"
+    return t("hotkey.join").join(parts) if parts else "ctrl+g"
 
 
 class Overlay:
