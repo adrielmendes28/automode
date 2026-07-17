@@ -9,22 +9,20 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.1.1] - 2026-07-17
 
-### Fixed
-
-- The menu's top-right corner was drawn a column off. The title row came to one
-  character less than every other row, so the box looked broken.
-
 ### Changed
 
-- The title spells **autoMODe**, with MOD picked out. That is the joke the project is
-  named after.
-- The package is published to PyPI as `automode-cli`. PyPI strips `-`, `_` and
-  `.` before comparing names, so plain `automode` reads as identical to the
-  existing `auto-mode` and is refused. The command, the import and the repo are
-  all still `automode`.
-- Internals split into three layers: `agents/` (what we know about Claude and
-  Codex), `terminal/` (the PTY and the screen), `core/` (settings, state, time).
-  No behaviour change.
+- Published to PyPI as `automode-cli`. PyPI strips `-`, `_` and `.` before comparing
+  names, so plain `automode` reads as identical to the existing `auto-mode` and is
+  refused. The command, the import and the repo are all still `automode`.
+- Internals split into three layers: `agents/` (what we know about Claude Code and
+  Codex), `terminal/` (the PTY and the screen), `core/` (settings, state, time). No
+  behaviour change.
+
+### Documentation
+
+- A FAQ answering what people search for when they are stuck: whether Claude Code can
+  continue by itself after the limit resets, when the 5-hour window starts, and
+  whether any of this gets around the limits (it does not).
 
 ## [0.1.0] - 2026-07-17
 
