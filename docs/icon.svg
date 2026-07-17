@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="automode">
+  <title>automode</title>
+  <defs>
+    <linearGradient id="agents" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d7875f"/>
+      <stop offset="1" stop-color="#00afff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="52" fill="#0b0e14"/>
+
+  <!-- The menu's double-ruled box, at icon scale. -->
+  <g stroke="url(#agents)" stroke-width="4" fill="none" opacity="0.5">
+    <rect x="38" y="46" width="180" height="164" rx="6"/>
+    <rect x="48" y="56" width="160" height="144" rx="4"/>
+  </g>
+
+  <!-- The selected row, holding the M for MOD. -->
+  <rect x="60" y="98" width="136" height="60" rx="4" fill="url(#agents)"/>
+  <text x="128" y="130" fill="#0b0e14" font-weight="700" font-size="52"
+        font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace"
+        text-anchor="middle" dominant-baseline="central"
+        textLength="88" lengthAdjust="spacingAndGlyphs">MOD</text>
+
+  <!-- Two more rows, dimmed: the two features. -->
+  <g fill="#8b949e" opacity="0.45">
+    <rect x="72" y="76" width="76" height="8" rx="4"/>
+    <rect x="72" y="174" width="98" height="8" rx="4"/>
+  </g>
+</svg>

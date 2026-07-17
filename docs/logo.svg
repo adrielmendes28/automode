@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160" role="img" aria-label="automode">
+  <title>automode</title>
+  <desc>The automode wordmark: MOD inside the menu's selection bar.</desc>
+  <defs>
+    <!-- Claude's terracotta into Codex's blue: the two themes the menu wears. -->
+    <linearGradient id="agents" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d7875f"/>
+      <stop offset="1" stop-color="#00afff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- The double rule the menu draws its box with. -->
+  <g fill="none" stroke="url(#agents)">
+    <rect x="8" y="8" width="464" height="144" rx="8" stroke-width="3"/>
+    <rect x="17" y="17" width="446" height="126" rx="5" stroke-width="1.5" opacity="0.6"/>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace"
+     font-size="58">
+    <!-- The pointer that marks the selected row. -->
+    <path d="M61 66 L77 80 L61 94 Z" fill="url(#agents)"/>
+
+    <text x="93" y="100" fill="#8b949e" textLength="139" lengthAdjust="spacing">auto</text>
+
+    <!-- MOD sits inside the selection bar, because that is where the mods are. -->
+    <rect x="244" y="44" width="128" height="72" rx="4" fill="url(#agents)"/>
+    <text x="256" y="100" fill="#0b0e14" font-weight="700" textLength="104"
+          lengthAdjust="spacing">MOD</text>
+
+    <text x="384" y="100" fill="#8b949e" textLength="35" lengthAdjust="spacing">e</text>
+  </g>
+</svg>
