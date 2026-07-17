@@ -1,4 +1,4 @@
-"""`automode install` — one command to make `claude` and `codex` wear the mods.
+"""`automode install`: one command to make `claude` and `codex` wear the mods.
 
 Two pieces have to line up:
 
@@ -22,13 +22,13 @@ from . import REPO_ROOT
 
 MARKER = "# automode"
 BLOCK = """
-{marker} — auto continue + auto ping for claude code / codex
+{marker}: auto continue + auto ping for claude code / codex
 alias claude='automode claude'
 alias codex='automode codex'
 """
 
 LAUNCHER = """#!/bin/sh
-{marker} launcher — runs the package straight from the clone.
+{marker} launcher. Runs the package straight from the clone.
 # Delete this file if you later install automode with pipx or uv.
 AUTOMODE_HOME="{home}"
 export PYTHONPATH="$AUTOMODE_HOME${{PYTHONPATH:+:$PYTHONPATH}}"
@@ -87,7 +87,7 @@ def install_aliases() -> int:
 
     rc = shell_rc()
     if rc is None:
-        print("\n  Unknown shell — add these lines yourself:")
+        print("\n  Unknown shell. Add these lines yourself:")
         print(BLOCK.format(marker=MARKER))
         return 1
 
@@ -122,7 +122,7 @@ def install_aliases() -> int:
 
 
 def hotkey() -> str:
-    """Whatever hotkey is actually configured — never assume the default."""
+    """Whatever hotkey is actually configured. Never assume the default."""
     from .core import config as configmod
     from .terminal.overlay import describe_hotkey
 

@@ -33,7 +33,7 @@ class PlistTests(unittest.TestCase):
             ping.build_plist(["25:00"], "claude", "oi")
 
     def test_does_not_run_at_load(self):
-        # Loading the agent must not fire a ping right now — that would open the
+        # Loading the agent must not fire a ping right now, because that would open the
         # usage window at the wrong time, which is the whole thing we avoid.
         plist = ping.build_plist(["05:00"], "claude", "oi")
         self.assertFalse(plist["RunAtLoad"])

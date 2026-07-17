@@ -8,7 +8,7 @@ labels: detector
 **The message, exactly as it appeared**
 
 <!-- Copy it verbatim, including the punctuation. If you can, take it from the raw
-     text rather than a screenshot — the exact wording is the whole thing. -->
+     text rather than a screenshot. The exact wording is the whole thing. -->
 
 ```
 paste here

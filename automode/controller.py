@@ -136,7 +136,7 @@ class Controller:
             return
 
         # The message sits on screen and is redrawn constantly. Refresh the
-        # sighting every time, but only act on the first one — or on one that
+        # sighting every time, but only act on the first one, or on one that
         # reappears after the screen has been clear of it for a while.
         key = hit.reset_at.isoformat()
         previously = self._seen.get(key)
@@ -159,7 +159,7 @@ class Controller:
             f"limit detected ({hit.kind}): {hit.raw!r} -> resets {local:%Y-%m-%d %H:%M %Z}"
         )
         if not self.config.get("auto_continue", True):
-            self.log("auto continue is off — standing down")
+            self.log("auto continue is off, standing down")
             return
 
         grace = timedelta(seconds=int(self.config.get("grace_seconds", 60)))
@@ -194,7 +194,7 @@ class Controller:
         self._armed_at = None
         self.log(f"sent {message!r} ({self._fire_reason})")
         if self.config.get("notify", True):
-            notify("automode", f"Limit is back — sent {message!r}.")
+            notify("automode", f"Limit is back. Sent {message!r}.")
         # Drop the stale screen text so the same message cannot re-arm us.
         self._buffer = ""
 
@@ -205,7 +205,7 @@ class Controller:
 
         We only do this when you have not touched the keyboard since the limit
         was detected. If you have, you were here and presumably answered it
-        yourself — and pressing a number into a live prompt would send a stray
+        yourself, and pressing a number into a live prompt would send a stray
         message to the agent.
         """
         if not self.config.get("answer_limit_prompt", True):

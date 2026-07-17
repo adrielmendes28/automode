@@ -32,8 +32,8 @@ class ParseHotkeyTests(unittest.TestCase):
 class MultipleHotkeyTests(unittest.TestCase):
     def test_the_default_accepts_both_spellings(self):
         keys = parse_hotkeys(configmod.DEFAULTS["hotkey"])
-        self.assertIn(b"\x07", keys)  # ctrl+g — chega em qualquer terminal
-        self.assertIn(b"\x1bg", keys)  # alt+g — so se o terminal mandar Meta
+        self.assertIn(b"\x07", keys)  # ctrl+g reaches us from any terminal
+        self.assertIn(b"\x1bg", keys)  # alt+g only if the terminal sends Meta
 
     def test_either_key_opens_the_menu(self):
         overlay = Overlay(base_config(), parse_hotkeys("ctrl+g, alt+g"))
@@ -71,7 +71,7 @@ class CloseFlowTests(unittest.TestCase):
         self.assertTrue(self.overlay.done)
 
     def test_the_hotkey_itself_closes(self):
-        # Whatever opened it should close it — that is what everyone tries first.
+        # Whatever opened it should close it, which is what everyone tries first.
         self._open()
         self.overlay.handle(b"\x07")
         self.assertTrue(self.overlay.done)
@@ -123,7 +123,7 @@ class HotkeyMatchTests(unittest.TestCase):
         self.assertTrue(self.overlay.matches_hotkey(b"\x1bg"))
 
     def test_escape_alone_does_not_open(self):
-        # Esc is how you interrupt claude — it must reach the agent.
+        # Esc is how you interrupt claude, so it must reach the agent.
         self.assertFalse(self.overlay.matches_hotkey(b"\x1b"))
 
     def test_escape_then_g_typed_by_a_human_does_not_open(self):

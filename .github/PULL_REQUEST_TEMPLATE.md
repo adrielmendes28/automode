@@ -9,7 +9,7 @@
 
 <!-- `python3 -m unittest discover -s tests -t .` plus whatever you drove by hand.
      Anything about the menu opening or closing needs a test in
-     tests/test_pty_overlay.py — mocks do not catch it. -->
+     tests/test_pty_overlay.py, because mocks do not catch it. -->
 
 - [ ] Tests pass
 - [ ] Added a test for the behaviour this changes

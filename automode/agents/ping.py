@@ -66,7 +66,7 @@ def plist_path() -> Path:
 
 
 def _launchd_path() -> str:
-    """A PATH that finds the agents — launchd starts with almost nothing."""
+    """A PATH that finds the agents. launchd starts with almost nothing."""
     parts: list[str] = []
     for name in AGENTS:
         found = shutil.which(name)
@@ -85,7 +85,7 @@ def _program_arguments(agent: str, message: str) -> list[str]:
 
     Prefer the installed `automode` script. Falling back to `python -m automode`
     only works if the package is importable, which is why install() also pins a
-    working directory — otherwise the 5am ping would fail silently, months from
+    working directory. Otherwise the 5am ping would fail silently, months from
     now, with nobody awake to see it.
     """
     args = ["ping", "--agent", agent, "--message", message]

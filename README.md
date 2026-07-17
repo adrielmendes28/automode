@@ -4,8 +4,8 @@
 
 <p align="center">
   <strong>A mod menu for Claude Code and Codex.</strong><br>
-  It keeps your session alive across usage limits, and puts your limit windows
-  where your workday actually is.
+  Auto continue after the usage limit is reset, and auto ping to line your
+  5-hour limit windows up with your workday.
 </p>
 
 <p align="center">
@@ -19,12 +19,13 @@
   <a href="#getting-started">Getting started</a> ·
   <a href="#1-auto-continue">Auto continue</a> ·
   <a href="#2-auto-ping">Auto ping</a> ·
+  <a href="#questions-people-arrive-here-with">FAQ</a> ·
   <a href="https://github.com/adrielmendes28/automode/blob/main/CONTRIBUTING.md">Contributing</a>
 </p>
 
 ---
 
-You keep the normal Claude Code / Codex interface — same colors, same shortcuts, same
+You keep the normal Claude Code / Codex interface: same colors, same shortcuts, same
 everything. `ctrl+g` opens the mod menu on top of it, wearing the color of whichever
 agent it is covering.
 
@@ -52,7 +53,7 @@ waits, types `continue` on its own, and Claude picks the work back up.
 
 It also answers the menu the agent leaves on screen. That part matters more than it
 sounds: hitting the limit does not just print a message, it parks the agent on a
-blocking choice. Typing `continue` at that screen does nothing at all — the answer
+blocking choice. Typing `continue` at that screen does nothing at all. The answer
 has to come first. automode picks the option that costs nothing and waits for the
 reset (`Stop and wait for limit to reset` on Claude, `Keep current model` on Codex),
 reading the option number out of the screen rather than assuming it.
@@ -62,7 +63,7 @@ reading the option number out of the screen rather than assuming it.
 This is the one that changes your day.
 
 **Your 5-hour window starts on your first prompt, not at a fixed hour.** So if your
-first "hi" of the morning is at 8:00, your window ends at 13:00 — right in the
+first "hi" of the morning is at 8:00, your window ends at 13:00, right in the
 middle of the workday. You run out at lunch and wait.
 
 Send that first prompt at **5:00** instead and the whole thing shifts:
@@ -73,7 +74,7 @@ Send that first prompt at **5:00** instead and the whole thing shifts:
 | **with automode** | **05:00** | **10:00** ✅ | **15:00** ✅ |
 
 You start at 8:00 with a fresh window, it renews at 10:00 while you are working, and
-again at 15:00 — still inside office hours. Both renewals land while you are at the
+again at 15:00, still inside office hours. Both renewals land while you are at the
 keyboard instead of while you are asleep or gone for the day.
 
 Nobody wakes up at 5am to type "hi". automode does it for you, on both Claude and
@@ -81,17 +82,20 @@ Codex, with the terminal closed and you asleep.
 
 ![Auto ping opening the usage window on its own](https://raw.githubusercontent.com/adrielmendes28/automode/main/docs/auto-ping.png)
 
-Nobody typed that `oi` — the ping did, at the hour you picked. The window is open now,
+Nobody typed that `oi`. The ping did, at the hour you picked. The window is open now,
 and it will renew while you are at the keyboard instead of while you are asleep.
 
 ## Getting started
 
 ```bash
-pipx install automode     # or: uv tool install automode
+pipx install automode-cli     # or: uv tool install automode-cli
 automode install
 ```
 
-No pipx or uv? Run it straight from a clone — there is nothing to build:
+(The command is `automode`; only the package is `automode-cli`, because PyPI
+reads plain `automode` as identical to an existing `auto-mode`.)
+
+No pipx or uv? Run it straight from a clone. There is nothing to build:
 
 ```bash
 git clone https://github.com/adrielmendes28/automode
@@ -106,7 +110,7 @@ alias claude='automode claude'
 alias codex='automode codex'
 ```
 
-Open a new terminal, and that is it — `claude` now has the mods.
+Open a new terminal, and that is it. `claude` now has the mods.
 
 ```
 claude          the agent, with the mods
@@ -125,7 +129,7 @@ automode schedule install   # schedule it with launchd (macOS)
 ```
 
 > **launchd does not wake your Mac.** If the machine is asleep at 5:00 the ping only
-> fires once it wakes, which defeats the whole point. Schedule the wake as well —
+> fires once it wakes, which defeats the whole point. Schedule the wake as well.
 > `automode schedule install` prints the exact command:
 >
 > ```bash
@@ -155,7 +159,7 @@ automode uninstall            remove the aliases and the launcher
 The menu writes `~/.config/automode/config.toml`, but it is a plain file:
 
 ```toml
-language = "en"             # "en" or "pt" — also switchable from the menu
+language = "en"             # "en" or "pt", also switchable from the menu
 auto_continue = true
 continue_message = "continue"
 answer_limit_prompt = true  # answer the blocking menu the limit leaves on screen
@@ -204,7 +208,7 @@ message inside its borders:
 
 So before any regex runs, the text goes through: ANSI stripping (holding back escape
 sequences cut in half between two reads), borders replaced with spaces, and all
-whitespace collapsed onto one line. Then matching happens in two steps — first a
+whitespace collapsed onto one line. Then matching happens in two steps. First a
 trigger (`hit your usage limit`, `limit reached`), and only within the next 400
 characters does it look for a time. One big regex would happily fire on any
 "resets 6pm" sitting elsewhere on screen.
@@ -212,7 +216,7 @@ characters does it look for a time. One big regex would happily fire on any
 Why not match on the red color? Because stripping the color is exactly what makes
 the sentence readable again, and the color depends on your terminal theme.
 
-Recognised formats — run `automode doctor` to watch them all parse:
+Recognised formats. Run `automode doctor` to watch them all parse:
 
 | message | becomes |
 |---|---|
@@ -233,13 +237,42 @@ Recognised formats — run `automode doctor` to watch them all parse:
 - **The message may change.** The detector depends on what Anthropic and OpenAI print
   today. If they change it, `automode doctor` says so and the regex in
   `automode/detect.py` needs a nudge.
-- **The ping costs a little quota** — that is precisely its job.
+- **The ping costs a little quota**, which is precisely its job.
 - **macOS and Linux.** The wrapper uses a POSIX PTY; the scheduler currently only
   speaks launchd (macOS). On Linux, point cron or a systemd timer at `automode ping`.
 
+## Questions people arrive here with
+
+**Claude Code hit the usage limit in the middle of a task. Can it continue by itself
+after the limit is reset?**
+Yes, that is what auto continue does. automode reads the reset time out of
+`You've hit your session limit · resets 6:20pm`, waits until then, answers the
+`What do you want to do?` menu with `Stop and wait for limit to reset`, and types
+`continue`. You do not have to be at the keyboard.
+
+**Codex says `You've hit your usage limit ... try again at Jul 23rd, 2026 1:16 AM`.
+Same thing?**
+Same thing. It also answers Codex's `Approaching rate limits` prompt with
+`Keep current model`, which is the one that hands the input back.
+
+**When does the Claude 5-hour window start?**
+On your first prompt of the window, not at a fixed hour. That is why the reset time
+drifts every day, and why sending a prompt early moves every renewal for the rest of
+the day. Auto ping automates that.
+
+**Does this raise my usage limit, or get around it?**
+No. It changes *when* your window starts and picks the work back up when the window
+you already pay for renews. Same quota, same limits, same plan.
+
+**Will it keep working when Anthropic or OpenAI change the wording?**
+Not automatically, and nothing can. `automode doctor` checks every known message and
+runs in CI, so a change breaks the build loudly instead of breaking auto continue
+silently at 3am. If you see a message it misses,
+[open an issue with the exact wording](https://github.com/adrielmendes28/automode/issues/new?template=limit-message-not-recognised.md).
+
 ## Contributing
 
-Issues and pull requests are welcome — see **[CONTRIBUTING.md](https://github.com/adrielmendes28/automode/blob/main/CONTRIBUTING.md)**.
+Issues and pull requests are welcome. See **[CONTRIBUTING.md](https://github.com/adrielmendes28/automode/blob/main/CONTRIBUTING.md)**.
 
 The most valuable thing you can report is **a limit message we do not recognise**. The
 whole project rests on reading a sentence that Anthropic and OpenAI can change whenever
@@ -255,4 +288,4 @@ By participating you agree to the [Code of Conduct](https://github.com/adrielmen
 
 ## License
 
-MIT — see [LICENSE](https://github.com/adrielmendes28/automode/blob/main/LICENSE).
+MIT. See [LICENSE](https://github.com/adrielmendes28/automode/blob/main/LICENSE).

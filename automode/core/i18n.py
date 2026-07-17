@@ -1,7 +1,7 @@
 """Interface translations.
 
 English is the default. The language is a normal setting, so it can be changed
-from the menu like anything else. Logs are deliberately not translated — they
+from the menu like anything else. Logs are deliberately not translated. They
 are diagnostics, and a bug report is easier to read in one language.
 
 To add a language: copy the "en" block, translate the values, and add the code

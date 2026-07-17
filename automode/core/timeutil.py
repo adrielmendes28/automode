@@ -73,7 +73,7 @@ def next_occurrence(
     """The next time the wall clock in `tz` reads hour:minute.
 
     A reading that just passed (within `slack`) counts as now rather than
-    a whole day away — the agent prints the message a beat before the reset.
+    a whole day away: the agent prints the message a beat before the reset.
     Arithmetic runs on naive local time so a DST shift moves the wall clock,
     not the appointment.
     """

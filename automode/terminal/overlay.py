@@ -9,14 +9,14 @@ Two problems have to be solved to put a menu over someone else's TUI:
 
 1. Telling alt+g apart from a real Escape. A terminal sends alt+g as ESC then
    'g' with no gap, so both bytes land in one read(). A human pressing Esc and
-   then typing g cannot beat that — the bytes arrive in separate reads. So the
+   then typing g cannot beat that, because the bytes arrive in separate reads. So the
    hotkey only counts when it is the whole chunk.
 
 2. Not losing the agent's screen. We switch to the alternate screen buffer,
    which the terminal restores byte-for-byte on exit, and hold everything the
    agent prints meanwhile in a buffer to replay afterwards. If the agent is
    itself using the alternate screen (codex does), we have to put it back
-   there before replaying — so we track that from its output.
+   there before replaying, so we track that from its output.
 """
 
 from __future__ import annotations

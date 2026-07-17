@@ -1,6 +1,9 @@
 [project]
-name = "automode"
-version = "0.1.0"
+# The command, the import and the repo are all `automode`. Only the
+# distribution is `automode-cli`: PyPI strips -_. before comparing names, so
+# plain `automode` collides with the existing `auto-mode` and is refused.
+name = "automode-cli"
+version = "0.1.1"
 description = "A mod menu for Claude Code and Codex: auto continue past usage limits, auto ping to align your limit windows with your workday"
 readme = "README.md"
 requires-python = ">=3.11"

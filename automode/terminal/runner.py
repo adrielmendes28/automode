@@ -1,8 +1,8 @@
 """Run a child process under a PTY, passing the terminal through untouched.
 
 automode sits between your keyboard and the agent. Bytes are forwarded in both
-directions verbatim — the agent's TUI must look and behave exactly as it does
-unwrapped — while a copy of the output goes to the controller, which may type
+directions verbatim, so the agent's TUI looks and behaves exactly as it does
+unwrapped, while a copy of the output goes to the controller, which may type
 into the PTY on your behalf.
 """
 
@@ -86,7 +86,7 @@ def _write_all(fd: int, data: bytes) -> None:
 def _signal_eof(master_fd: int) -> None:
     """Pass our stdin's EOF along, so a child reading a pipe does not hang.
 
-    A PTY has no EOF of its own — the end of input is the VEOF character, and
+    A PTY has no EOF of its own. The end of input is the VEOF character, and
     only while the child is in canonical mode. A TUI in raw mode is reading
     keystrokes, not a stream, so sending it ^D would just be a stray keypress.
     """

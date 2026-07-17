@@ -4,8 +4,8 @@ Not curses: automode already holds the terminal in raw mode and already reads
 every keystroke, so curses would only fight it for control. The same renderer
 serves both the in-session overlay and the standalone `automode menu`.
 
-The look is deliberately Turbo Vision — a double-ruled box floating in the
-middle of the screen, an inverted bar for the selected row — and it borrows
+The look is deliberately Turbo Vision: a double-ruled box floating in the
+middle of the screen, an inverted bar for the selected row. It borrows
 its color from whichever agent it is covering.
 """
 
@@ -157,7 +157,7 @@ class Menu:
                 return
 
     def _value(self, row: Row) -> str:
-        """The value as plain text — width math needs it free of escapes."""
+        """The value as plain text. Width math needs it free of escapes."""
         value = _get(self.config, row.path)
         if row.kind == "bool":
             return "[X]" if value else "[ ]"

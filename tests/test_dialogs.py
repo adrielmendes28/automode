@@ -39,7 +39,7 @@ class FindTests(unittest.TestCase):
 
     def test_codex_never_show_again_is_not_mistaken_for_keep(self):
         # "3. Keep current model (never show again)" also contains "Keep
-        # current model" — picking it would silence future warnings forever.
+        # current model", and picking it would silence future warnings forever.
         answer = dialogs.find(detect.normalize(dialogs.SAMPLES[1][2]))
         self.assertNotEqual(answer.key, "3")
 

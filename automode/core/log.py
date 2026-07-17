@@ -1,7 +1,7 @@
 """Logging and desktop notifications.
 
-automode never writes to the terminal while an agent owns it — a stray line
-would corrupt the TUI — so everything it has to say goes to a log file, plus
+automode never writes to the terminal while an agent owns it, because a stray
+line would corrupt the TUI. So everything it has to say goes to a log file, plus
 an optional system notification.
 """
 

@@ -34,7 +34,7 @@ DEFAULTS: dict[str, Any] = {
 }
 
 HEADER = """\
-# automode — https://github.com/adrielmendes/automode
+# automode: https://github.com/adrielmendes28/automode
 # Written by `automode menu`. Hand-edit freely, but saving from the menu
 # rewrites this file and drops comments.
 
@@ -105,7 +105,7 @@ def _fmt(value: Any) -> str:
 
 
 def dumps(config: dict[str, Any]) -> str:
-    """Minimal TOML writer — the stdlib reads TOML but cannot write it."""
+    """Minimal TOML writer. The stdlib reads TOML but cannot write it."""
     scalars: list[str] = []
     tables: list[tuple[str, dict]] = []
     for key, value in config.items():

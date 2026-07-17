@@ -28,7 +28,7 @@ from .terminal.runner import run as pty_run
 
 WRAPPABLE = ("claude", "codex")
 
-USAGE = """automode {version} — {tagline}
+USAGE = """automode {version}: {tagline}
 
   automode claude [args...]     run claude with the mods (args pass through)
   automode codex  [args...]     same for codex
@@ -98,7 +98,7 @@ def cmd_usage(code: int = 0) -> int:
 
 def cmd_wrap(argv: list[str]) -> int:
     if pty_runner.session_depth() >= pty_runner.MAX_DEPTH:
-        # Something is calling us in a loop — a shell function or a script named
+        # Something is calling us in a loop: a shell function or a script named
         # `claude` that invokes automode again. Run the agent bare and stop.
         os.execvp(argv[0], argv)
 
@@ -112,7 +112,7 @@ def cmd_wrap(argv: list[str]) -> int:
     controller = Controller(config, log=log, state=State())
     overlay = overlaymod.build(config, agent=argv[0], size=menu.terminal_size())
     if overlay is None:
-        log(f"hotkey {config.get('hotkey')!r} is unusable — menu off this session")
+        log(f"hotkey {config.get('hotkey')!r} is unusable, menu off this session")
     return pty_run(argv, controller, overlay=overlay)
 
 
@@ -198,7 +198,7 @@ def cmd_doctor() -> int:
     print(f"\nhotkey: {config.get('hotkey')!r} -> {hotkey}")
     if not hotkey:
         failures += 1
-        print("  unusable — the menu will not open")
+        print("  unusable, the menu will not open")
 
     depth = pty_runner.session_depth()
     if depth:
@@ -231,7 +231,7 @@ def cmd_ping(args: list[str]) -> int:
 
     code = pingmod.ping_once(agent, message, log=Logger(enabled=True))
     if code == 0:
-        print(f"automode: sent {message!r} to {agent} — window is open.")
+        print(f"automode: sent {message!r} to {agent}. Window is open.")
     else:
         print(f"automode: ping failed (rc={code}); see {configmod.log_path()}")
     return code

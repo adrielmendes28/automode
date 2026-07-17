@@ -11,7 +11,7 @@ permission to open either.
   you saw.
 - **Tell us about a terminal where the menu misbehaves.** Which terminal, which
   version, what you saw. Terminals disagree about a lot.
-- **Translate the interface.** See below — it is one file and no code.
+- **Translate the interface.** See below: it is one file and no code.
 
 ## Getting set up
 
@@ -75,7 +75,7 @@ or Codex that they can change without telling us. `terminal/` knows nothing abou
 which agent is running. `core/` depends on nothing but the standard library.
 
 If you need the clone's path (the launcher and the launchd agent do), import
-`REPO_ROOT` from the package rather than walking up from `__file__` — it is anchored
+`REPO_ROOT` from the package rather than walking up from `__file__`. It is anchored
 to the package, so moving a module between layers cannot quietly break it.
 
 Some conventions worth knowing before you change things:
@@ -84,7 +84,7 @@ Some conventions worth knowing before you change things:
   scheduling testable in milliseconds instead of hours. Please do not reach for
   `datetime.now()` inside the controller.
 - **`tests/test_pty_overlay.py` drives a real terminal.** Anything about the menu
-  opening or closing belongs there. Mocks will not catch it — the bug where a stray
+  opening or closing belongs there. Mocks will not catch it. The bug where a stray
   `q` got written into a numeric field only ever showed up in that file.
 - **automode never prints while an agent owns the terminal.** A stray line corrupts
   the TUI. Diagnostics go to the log (`~/.local/state/automode/automode.log`).
@@ -105,13 +105,13 @@ visible immediately.
 
 Add a `Prompt` to `dialogs.PROMPTS` with a `pattern` whose first group captures the
 option number, and a `context` that proves the menu is really on screen. Read the
-number from the text — never hardcode it, or a reordered menu silently picks the wrong
+number from the text, and never hardcode it, or a reordered menu silently picks the wrong
 thing. Add the wording to `dialogs.SAMPLES` and a test.
 
 ## Adding a language
 
 Copy the `"en"` block in `automode/i18n.py`, translate the values, and add the code to
-`LANGUAGES`. That is the whole job — a key you miss falls back to English rather than
+`LANGUAGES`. That is the whole job. A key you miss falls back to English rather than
 crashing.
 
 Logs are deliberately English-only. A bug report is easier to read in one language.

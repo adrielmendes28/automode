@@ -1,7 +1,7 @@
 """Drive the whole wrapper through a real PTY.
 
 Everything else mocks the terminal. This spawns automode for real, presses
-keys at it, and reads what a terminal would have received — the only way to
+keys at it, and reads what a terminal would have received. The only way to
 know the open/close flow actually works.
 """
 

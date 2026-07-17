@@ -1,6 +1,6 @@
 """Prompts the agents put on screen when you hit the limit.
 
-Hitting the limit does not just print a message — it leaves the agent sitting
+Hitting the limit does not just print a message. It leaves the agent sitting
 on a menu, waiting for an answer:
 
     What do you want to do?
@@ -34,7 +34,7 @@ class Prompt:
 
 
 PROMPTS = (
-    # claude: waiting is the whole point — the other options cost money.
+    # claude: waiting is the whole point; the other options cost money.
     Prompt(
         name="claude-wait-for-reset",
         pattern=re.compile(

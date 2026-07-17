@@ -1,8 +1,8 @@
-"""automode — keep claude/codex sessions going across usage limits."""
+"""automode: keep claude/codex sessions going across usage limits."""
 
 from pathlib import Path
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 #: The clone this package lives in. Anchored to the package, not to any one
 #: module's depth, so moving files between subpackages cannot quietly break it.
