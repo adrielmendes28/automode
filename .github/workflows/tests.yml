@@ -1,0 +1,30 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    # The wrapper is POSIX PTY code, so it is worth proving on both.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ["3.11", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Run the suite
+        # No dependencies to install, on purpose.
+        run: python -m unittest discover -s tests -t . -v
+
+      - name: Check the detector against real limit messages
+        run: python -m automode doctor
