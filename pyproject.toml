@@ -1,0 +1,30 @@
+[project]
+name = "automode"
+version = "0.1.0"
+description = "A mod menu for Claude Code and Codex: auto continue past usage limits, auto ping to align your limit windows with your workday"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["claude", "claude-code", "codex", "cli", "rate-limit", "pty", "wrapper", "mod-menu"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Utilities",
+]
+# No dependencies, on purpose: the standard library covers all of it.
+dependencies = []
+
+[project.scripts]
+automode = "automode.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["automode"]
