@@ -7,4 +7,3 @@ dist/
 *.egg-info/
 .pytest_cache/
 .DS_Store
-dist/
