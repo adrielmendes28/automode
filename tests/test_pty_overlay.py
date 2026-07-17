@@ -126,7 +126,7 @@ class OverlayThroughPtyTests(unittest.TestCase):
         self.h.press(b"\x07")
         opened = self.h.read(1.5)
         self.assertIn(ALT_ON, opened, "nao entrou na tela alternativa")
-        self.assertIn("automode".encode(), opened)
+        self.assertIn(b"MOD", opened, "o titulo autoMODe nao apareceu")
         self.assertIn("╔".encode("utf-8"), opened, "a caixa nao foi desenhada")
 
         self.h.press(b"q")

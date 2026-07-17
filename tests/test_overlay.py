@@ -5,7 +5,7 @@ import unittest
 from automode import config as configmod
 from automode.menu import Menu
 from automode.overlay import Overlay, parse_hotkey, parse_hotkeys
-from automode.theme import CLAUDE, CODEX, for_agent
+from automode.theme import BOLD, CLAUDE, CODEX, NOBOLD, for_agent
 
 
 def base_config():
@@ -424,6 +424,33 @@ class BoxTests(unittest.TestCase):
         drawn = self.menu.render()
         for corner in "╔╗╚╝":
             self.assertIn(corner, drawn)
+
+    def _line_widths(self, menu):
+        drawn = menu.render()
+        return [
+            len(re.sub(r"\x1b\[[0-9;?]*[a-zA-Z]", "", line))
+            for line in re.split(r"\x1b\[\d+;\d+H", drawn)[1:]
+        ]
+
+    def test_every_line_of_the_box_is_the_same_width(self):
+        # One character short on the title row and the top-right corner lands a
+        # column off, which looks like a broken box.
+        self.assertEqual(len(set(self._line_widths(self.menu))), 1)
+
+    def test_the_title_row_stays_aligned_when_the_unsaved_mark_appears(self):
+        self.menu.handle(b" ")  # toggle something so `dirty` turns on
+        self.assertTrue(self.menu.dirty)
+        self.assertEqual(len(set(self._line_widths(self.menu))), 1)
+
+    def test_alignment_holds_at_any_width(self):
+        for cols in (40, 62, 80, 120, 200):
+            menu = Menu(base_config(), size=(40, cols))
+            self.assertEqual(len(set(self._line_widths(menu))), 1, f"cols={cols}")
+
+    def test_the_title_spells_autoMODe_with_MOD_picked_out(self):
+        drawn = self.menu.render()
+        # Bold around MOD only, and ended without dropping the border color.
+        self.assertIn(f" auto{BOLD}MOD{NOBOLD}e ", drawn)
 
     def test_no_line_is_wider_than_the_terminal(self):
         for cols in (40, 60, 80, 120, 200):

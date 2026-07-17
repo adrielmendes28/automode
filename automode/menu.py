@@ -18,7 +18,7 @@ from typing import Any
 
 from . import config as configmod
 from .i18n import LANGUAGES, set_language, t
-from .theme import BOLD, DIM, RESET, Theme, for_agent
+from .theme import BOLD, DIM, NOBOLD, RESET, Theme, for_agent
 from .timeutil import local_tz_name, parse_hhmm
 
 ESC = "\x1b"
@@ -30,6 +30,9 @@ CLEAR = f"{ESC}[H{ESC}[2J"
 
 TL, TR, BL, BR, H, V = "╔", "╗", "╚", "╝", "═", "║"
 LT, RT = "╠", "╣"
+
+#: The MOD in autoMODe, kept in one place because the title needs it twice.
+MOD = "MOD"
 
 LABEL_WIDTH = 21
 BOX_WIDTH = 62
@@ -377,10 +380,12 @@ class Menu:
         left = max((cols - width) // 2, 0)
 
         accent = self.theme.accent
-        title = " automode "
-        if self.dirty:
-            title = " automode * "
-        rule = H * (inner - len(title) - 3)
+        # Two strings for one title: the escape codes that make MOD stand out
+        # would otherwise be counted as width, and the rule would come up short.
+        mark = "* " if self.dirty else ""
+        title_plain = f" auto{MOD}e {mark}"
+        title_drawn = f" auto{BOLD}{MOD}{NOBOLD}e {mark}"
+        rule = H * max(inner - len(title_plain) - 2, 0)
 
         out = [CLEAR, CURSOR_HIDE]
         line_no = top + 1
@@ -390,7 +395,7 @@ class Menu:
             out.append(f"{ESC}[{line_no};{left + 1}H{text}")
             line_no += 1
 
-        place(f"{accent}{TL}{H}{H}{self.theme.title}{title}{RESET}{accent}{rule}{TR}{RESET}")
+        place(f"{accent}{TL}{H}{H}{title_drawn}{accent}{rule}{TR}{RESET}")
         for text, selected in body:
             cell = text[:inner].ljust(inner)
             if selected:

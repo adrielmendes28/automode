@@ -10,6 +10,8 @@ from dataclasses import dataclass
 
 RESET = "\x1b[0m"
 BOLD = "\x1b[1m"
+#: Ends bold without dropping the color, unlike RESET.
+NOBOLD = "\x1b[22m"
 DIM = "\x1b[2m"
 
 
