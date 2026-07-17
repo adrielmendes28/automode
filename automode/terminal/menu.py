@@ -16,10 +16,10 @@ import os
 from dataclasses import dataclass, field
 from typing import Any
 
-from . import config as configmod
-from .i18n import LANGUAGES, set_language, t
+from ..core import config as configmod
+from ..core.i18n import LANGUAGES, set_language, t
 from .theme import BOLD, DIM, NOBOLD, RESET, Theme, for_agent
-from .timeutil import local_tz_name, parse_hhmm
+from ..core.timeutil import local_tz_name, parse_hhmm
 
 ESC = "\x1b"
 ALT_SCREEN_ON = f"{ESC}[?1049h"

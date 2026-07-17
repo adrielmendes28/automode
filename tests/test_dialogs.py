@@ -1,6 +1,6 @@
 import unittest
 
-from automode import dialogs, detect
+from automode.agents import detect, dialogs
 
 
 class FindTests(unittest.TestCase):

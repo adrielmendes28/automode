@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from automode import detect
+from automode.agents import detect
 
 SP = ZoneInfo("America/Sao_Paulo")
 

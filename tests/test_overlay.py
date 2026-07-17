@@ -2,10 +2,10 @@ import copy
 import re
 import unittest
 
-from automode import config as configmod
-from automode.menu import Menu
-from automode.overlay import Overlay, parse_hotkey, parse_hotkeys
-from automode.theme import BOLD, CLAUDE, CODEX, NOBOLD, for_agent
+from automode.core import config as configmod
+from automode.terminal.menu import Menu
+from automode.terminal.overlay import Overlay, parse_hotkey, parse_hotkeys
+from automode.terminal.theme import BOLD, CLAUDE, CODEX, NOBOLD, for_agent
 
 
 def base_config():

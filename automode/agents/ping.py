@@ -14,8 +14,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-from .config import log_path, state_dir
-from .timeutil import parse_hhmm
+from .. import REPO_ROOT
+from ..core.config import log_path, state_dir
+from ..core.timeutil import parse_hhmm
 
 LABEL = "com.automode.ping"
 AGENTS = ("claude", "codex")
@@ -94,10 +95,6 @@ def _program_arguments(agent: str, message: str) -> list[str]:
     return [sys.executable, "-m", "automode", *args]
 
 
-def repo_root() -> str:
-    return str(Path(__file__).resolve().parent.parent)
-
-
 def build_plist(times: list[str], agent: str, message: str) -> dict:
     intervals = []
     for entry in times:
@@ -118,7 +115,7 @@ def build_plist(times: list[str], agent: str, message: str) -> dict:
         # launchd starts with almost no environment; without this it would not
         # even find `claude` on PATH.
         "EnvironmentVariables": {"PATH": _launchd_path(), "HOME": str(Path.home())},
-        "WorkingDirectory": repo_root(),
+        "WorkingDirectory": str(REPO_ROOT),
         "StandardOutPath": str(out),
         "StandardErrorPath": str(out),
         "ProcessType": "Background",

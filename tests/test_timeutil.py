@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from automode import timeutil
+from automode.core import timeutil
 
 SP = ZoneInfo("America/Sao_Paulo")
 NY = ZoneInfo("America/New_York")

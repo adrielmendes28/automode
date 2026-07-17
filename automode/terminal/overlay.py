@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import re
 
-from .i18n import t
+from ..core.i18n import t
 from .menu import ALT_SCREEN_OFF, ALT_SCREEN_ON, CURSOR_HIDE, CURSOR_SHOW, Menu
 from .theme import Theme, for_agent
 

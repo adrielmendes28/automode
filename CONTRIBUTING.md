@@ -42,15 +42,41 @@ with a reset time a minute out, and wrap it. That is how it was developed.
 
 ## The shape of the code
 
-| file | what it owns |
-|---|---|
-| `pty_runner.py` | the PTY, raw mode, the select loop. Bytes in and out, nothing clever. |
-| `detect.py` | turning a repainted, border-wrapped, ANSI-riddled screen back into a sentence |
-| `dialogs.py` | the blocking menus the agents park on |
-| `controller.py` | the decisions: when to arm, when to type, when to keep quiet |
-| `menu.py` / `overlay.py` / `theme.py` | the mod menu and the screen juggling behind it |
-| `ping.py` | the headless ping and its launchd agent |
-| `i18n.py` | interface strings |
+Three layers, and the dependencies only point downward.
+
+```
+automode/
+├── cli.py            command dispatch
+├── controller.py     the decisions: when to arm, when to type, when to keep quiet
+├── install.py        the launcher and the shell aliases
+│
+├── agents/           what we know about someone else's program
+│   ├── detect.py     turning a repainted, border-wrapped, ANSI-riddled screen
+│   │                 back into a sentence
+│   ├── dialogs.py    the blocking menus the agents park on at the limit
+│   └── ping.py       their headless modes, and the launchd agent that fires them
+│
+├── terminal/         owning the terminal, and the screen the agent thinks it owns
+│   ├── runner.py     the PTY, raw mode, the select loop. Bytes in and out.
+│   ├── menu.py       the mod menu
+│   ├── overlay.py    floating it over a running agent without losing their screen
+│   └── theme.py      the per-agent colors
+│
+└── core/             settings, state, logging, time, strings
+    ├── config.py
+    ├── state.py
+    ├── log.py
+    ├── i18n.py
+    └── timeutil.py
+```
+
+`agents/` is where the churn lives: everything in it encodes a fact about Claude Code
+or Codex that they can change without telling us. `terminal/` knows nothing about
+which agent is running. `core/` depends on nothing but the standard library.
+
+If you need the clone's path (the launcher and the launchd agent do), import
+`REPO_ROOT` from the package rather than walking up from `__file__` — it is anchored
+to the package, so moving a module between layers cannot quietly break it.
 
 Some conventions worth knowing before you change things:
 

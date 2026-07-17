@@ -14,10 +14,10 @@ import codecs
 from datetime import datetime, timedelta
 from typing import Any, Callable
 
-from . import detect, dialogs
-from .log import Logger, notify
-from .state import State
-from .timeutil import get_tz, parse_hhmm
+from .agents import detect, dialogs
+from .core.log import Logger, notify
+from .core.state import State
+from .core.timeutil import get_tz, parse_hhmm
 
 BUFFER_CHARS = 8000
 SCAN_INTERVAL = timedelta(milliseconds=250)

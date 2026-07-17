@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from automode import config as configmod
+from automode.core import config as configmod
 from automode.controller import Controller
 
 SP = ZoneInfo("America/Sao_Paulo")

@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from .timeutil import WEEKDAYS, get_tz, next_occurrence, to_24h
+from ..core.timeutil import WEEKDAYS, get_tz, next_occurrence, to_24h
 
 ANSI_RE = re.compile(
     r"\x1b\[[0-9;?]*[ -/]*[@-~]"  # CSI: colors, cursor moves

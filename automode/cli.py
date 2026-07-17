@@ -12,18 +12,19 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from . import __version__
-from . import config as configmod
-from . import detect, dialogs, install, menu
-from . import overlay as overlaymod
-from . import ping as pingmod
-from . import pty_runner
+from . import __version__, install
+from .agents import detect, dialogs
+from .agents import ping as pingmod
 from .controller import Controller
-from .i18n import set_language, t
-from .log import Logger
-from .pty_runner import run as pty_run
-from .state import State
-from .timeutil import get_tz, local_tz_name, parse_hhmm
+from .core import config as configmod
+from .core.i18n import set_language, t
+from .core.log import Logger
+from .core.state import State
+from .core.timeutil import get_tz, local_tz_name, parse_hhmm
+from .terminal import menu
+from .terminal import overlay as overlaymod
+from .terminal import runner as pty_runner
+from .terminal.runner import run as pty_run
 
 WRAPPABLE = ("claude", "codex")
 

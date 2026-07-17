@@ -18,6 +18,8 @@ import stat
 import sys
 from pathlib import Path
 
+from . import REPO_ROOT
+
 MARKER = "# automode"
 BLOCK = """
 {marker} — auto continue + auto ping for claude code / codex
@@ -32,10 +34,6 @@ AUTOMODE_HOME="{home}"
 export PYTHONPATH="$AUTOMODE_HOME${{PYTHONPATH:+:$PYTHONPATH}}"
 exec "{python}" -m automode "$@"
 """
-
-
-def repo_root() -> Path:
-    return Path(__file__).resolve().parent.parent
 
 
 def bin_dir() -> Path:
@@ -68,7 +66,7 @@ def write_launcher() -> Path:
     path = launcher_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        LAUNCHER.format(marker=MARKER, home=repo_root(), python=sys.executable)
+        LAUNCHER.format(marker=MARKER, home=REPO_ROOT, python=sys.executable)
     )
     path.chmod(path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
     return path
@@ -125,8 +123,8 @@ def install_aliases() -> int:
 
 def hotkey() -> str:
     """Whatever hotkey is actually configured — never assume the default."""
-    from . import config as configmod
-    from .overlay import describe_hotkey
+    from .core import config as configmod
+    from .terminal.overlay import describe_hotkey
 
     return describe_hotkey(str(configmod.load().get("hotkey", "ctrl+g")))
 

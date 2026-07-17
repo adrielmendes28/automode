@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from automode import ping
+from automode.agents import ping
 
 
 class HeadlessArgvTests(unittest.TestCase):
