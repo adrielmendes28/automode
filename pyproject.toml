@@ -5,6 +5,7 @@ description = "A mod menu for Claude Code and Codex: auto continue past usage li
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
+authors = [{ name = "Adriel Mendes", email = "adriel.amendes12@gmail.com" }]
 keywords = ["claude", "claude-code", "codex", "cli", "rate-limit", "pty", "wrapper", "mod-menu"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -19,6 +20,12 @@ classifiers = [
 # No dependencies, on purpose: the standard library covers all of it.
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/adrielmendes28/automode"
+Repository = "https://github.com/adrielmendes28/automode"
+Issues = "https://github.com/adrielmendes28/automode/issues"
+Changelog = "https://github.com/adrielmendes28/automode/blob/main/CHANGELOG.md"
+
 [project.scripts]
 automode = "automode.cli:main"
 
@@ -28,3 +35,8 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["automode"]
+
+[tool.hatch.build.targets.sdist]
+# The screenshots are 3MB and the README points at them by URL anyway; nobody
+# should download them to install a CLI.
+exclude = ["/docs", "/.github"]

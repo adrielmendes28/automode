@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.svg" alt="automode" width="440">
+  <img src="https://raw.githubusercontent.com/adrielmendes28/automode/main/docs/logo.svg" alt="automode" width="440">
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/adrielmendes28/automode/actions/workflows/tests.yml"><img src="https://github.com/adrielmendes28/automode/actions/workflows/tests.yml/badge.svg" alt="tests"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
+  <a href="https://github.com/adrielmendes28/automode/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/python-3.11%2B-blue.svg" alt="Python 3.11+">
   <img src="https://img.shields.io/badge/dependencies-none-brightgreen.svg" alt="no dependencies">
 </p>
@@ -19,7 +19,7 @@
   <a href="#getting-started">Getting started</a> ·
   <a href="#1-auto-continue">Auto continue</a> ·
   <a href="#2-auto-ping">Auto ping</a> ·
-  <a href="CONTRIBUTING.md">Contributing</a>
+  <a href="https://github.com/adrielmendes28/automode/blob/main/CONTRIBUTING.md">Contributing</a>
 </p>
 
 ---
@@ -29,8 +29,8 @@ everything. `ctrl+g` opens the mod menu on top of it, wearing the color of which
 agent it is covering.
 
 <p align="center">
-  <img src="docs/menu-claude.png" alt="The automode menu over Claude Code" width="49%">
-  <img src="docs/menu-codex.png" alt="The automode menu over Codex" width="49%">
+  <img src="https://raw.githubusercontent.com/adrielmendes28/automode/main/docs/menu-claude.png" alt="The automode menu over Claude Code" width="49%">
+  <img src="https://raw.githubusercontent.com/adrielmendes28/automode/main/docs/menu-codex.png" alt="The automode menu over Codex" width="49%">
 </p>
 
 Pure Python standard library. No dependencies.
@@ -45,7 +45,7 @@ type `continue`.
 
 automode reads the message, works out the reset time, waits, and types it for you.
 
-![Auto continue picking the session back up after the limit reset](docs/auto-continue.png)
+![Auto continue picking the session back up after the limit reset](https://raw.githubusercontent.com/adrielmendes28/automode/main/docs/auto-continue.png)
 
 That is a real session: `oi` hits the session limit, automode sees it resets at 12am,
 waits, types `continue` on its own, and Claude picks the work back up.
@@ -79,7 +79,7 @@ keyboard instead of while you are asleep or gone for the day.
 Nobody wakes up at 5am to type "hi". automode does it for you, on both Claude and
 Codex, with the terminal closed and you asleep.
 
-![Auto ping opening the usage window on its own](docs/auto-ping.png)
+![Auto ping opening the usage window on its own](https://raw.githubusercontent.com/adrielmendes28/automode/main/docs/auto-ping.png)
 
 Nobody typed that `oi` — the ping did, at the hour you picked. The window is open now,
 and it will renew while you are at the keyboard instead of while you are asleep.
@@ -87,12 +87,19 @@ and it will renew while you are at the keyboard instead of while you are asleep.
 ## Getting started
 
 ```bash
+pipx install automode     # or: uv tool install automode
+automode install
+```
+
+No pipx or uv? Run it straight from a clone — there is nothing to build:
+
+```bash
 git clone https://github.com/adrielmendes28/automode
 cd automode
 python3 -m automode install
 ```
 
-That writes a launcher to `~/.local/bin/automode` and adds two aliases to your shell:
+Either way, `automode install` points your shell at it:
 
 ```sh
 alias claude='automode claude'
@@ -107,8 +114,6 @@ claude          the agent, with the mods
 ctrl+g          the mod menu, from inside a session
 automode menu   the same menu, from outside
 ```
-
-If you use pipx or uv, `pipx install .` works too and the launcher is skipped.
 
 Requires Python 3.11+ and macOS or Linux.
 
@@ -234,7 +239,7 @@ Recognised formats — run `automode doctor` to watch them all parse:
 
 ## Contributing
 
-Issues and pull requests are welcome — see **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+Issues and pull requests are welcome — see **[CONTRIBUTING.md](https://github.com/adrielmendes28/automode/blob/main/CONTRIBUTING.md)**.
 
 The most valuable thing you can report is **a limit message we do not recognise**. The
 whole project rests on reading a sentence that Anthropic and OpenAI can change whenever
@@ -246,8 +251,8 @@ python3 -m automode doctor                   # detector against real messages
 python3 -m automode -- bash                  # exercise the wrapper, no quota spent
 ```
 
-By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+By participating you agree to the [Code of Conduct](https://github.com/adrielmendes28/automode/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](https://github.com/adrielmendes28/automode/blob/main/LICENSE).
