@@ -76,6 +76,31 @@ LIMIT = "You've hit your session limit · resets 6:20pm (America/Sao_Paulo)"
 
 
 class ContinueTests(unittest.TestCase):
+    def test_codex_clock_continues_once_after_configured_grace(self):
+        for reading in ["4:14 AM", "4:14AM"]:
+            with self.subTest(reading=reading):
+                h = Harness(datetime(2026, 7, 16, 4, 0, tzinfo=SP), grace_seconds=90)
+                message = (
+                    "■ You’ve hit your usage limit. Upgrade to Pro "
+                    "(https://chatgpt.com/explore/pro), visit "
+                    "https://chatgpt.com/settings/usage to purchase more credits "
+                    f"or try again at {reading}."
+                )
+                h.output(message)
+                h.clock.advance(minutes=14)
+                h.tick()
+                self.assertEqual(h.sent, "")
+                # Repainting the message must not queue another continue.
+                h.output(message)
+                h.clock.advance(seconds=89)
+                h.tick()
+                self.assertEqual(h.sent, "")
+                h.clock.advance(seconds=1)
+                h.tick()
+                self.assertEqual(h.sent, "continue")
+                h.run_for(10 * 60)
+                self.assertEqual(h.sent, "continue\r")
+
     def test_types_continue_one_grace_after_the_reset(self):
         h = Harness(datetime(2026, 7, 16, 18, 0, tzinfo=SP), grace_seconds=60)
         h.output(LIMIT)

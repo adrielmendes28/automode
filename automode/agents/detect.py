@@ -66,8 +66,9 @@ ABSOLUTE_RE = re.compile(
 )
 
 # claude: "resets 6:20pm (America/Sao_Paulo)", "will reset at 4pm", "resets Tue 9am"
+# codex: "try again at 4:14 AM", "try again at 4:14AM"
 CLOCK_RE = re.compile(
-    r"resets?\s*(?:at|on)?\s+"
+    r"(?:resets?\s*(?:at|on)?|try\s+again\s+at)\s+"
     r"(?:(?P<dow>mon|tue|wed|thu|fri|sat|sun)[a-z]*\.?,?\s+)?"
     r"(?P<hour>\d{1,2})(?::(?P<min>\d{2}))?\s*(?P<ampm>am|pm)"
     r"(?:\s*\((?P<tz>[A-Za-z][A-Za-z0-9_+\-]*(?:/[A-Za-z0-9_+\-]+)*)\))?",
@@ -189,4 +190,8 @@ SAMPLES = [
     "You've hit your weekly limit · resets Tue 9am",
     "5-hour limit reached ∙ resets 3:45pm",
     "You've hit your usage limit. Try again in 4 hours 32 minutes.",
+    "■ You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), "
+    "visit https://chatgpt.com/settings/usage to purchase more credits or try "
+    "again at 4:14 AM.",
+    "You've hit your usage limit. Try again at 4:14AM.",
 ]

@@ -51,6 +51,96 @@ class NormalizeTests(unittest.TestCase):
 
 
 class ScanTests(unittest.TestCase):
+    def test_codex_clock_exact_message(self):
+        text = (
+            "■ You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), "
+            "visit https://chatgpt.com/settings/usage to purchase more credits or try "
+            "again at 4:14 AM."
+        )
+        hit = detect.scan(detect.normalize(text), at(2026, 7, 16, 3), SP)
+        self.assertIsNotNone(hit)
+        self.assertEqual(hit.kind, "clock")
+        self.assertEqual(hit.reset_at, at(2026, 7, 16, 4, 14))
+
+    def test_codex_clock_variants(self):
+        for reading, hour, minute in [
+            ("4:14 AM", 4, 14),
+            ("4:14AM", 4, 14),
+            ("4:14 am", 4, 14),
+            ("4:14am", 4, 14),
+            ("4:14 PM", 16, 14),
+            ("4:14PM", 16, 14),
+            ("4:14 pm", 16, 14),
+            ("4:14pm", 16, 14),
+            ("12:00 PM", 12, 0),
+            ("12:00AM", 0, 0),
+        ]:
+            with self.subTest(reading=reading):
+                hit = detect.scan(
+                    f"You've hit your usage limit. try again at {reading}.",
+                    at(2026, 7, 16, 0), SP,
+                )
+                self.assertIsNotNone(hit)
+                self.assertEqual(hit.kind, "clock")
+                self.assertEqual(hit.reset_at, at(2026, 7, 16, hour, minute))
+
+    def test_codex_clock_rollover_and_recent_reset(self):
+        for now, expected in [
+            (at(2026, 7, 16, 23, 50), at(2026, 7, 17, 4, 14)),
+            (at(2026, 7, 16, 4, 15), at(2026, 7, 16, 4, 14)),
+            (at(2026, 7, 16, 4, 16), at(2026, 7, 16, 4, 14)),
+            (at(2026, 7, 16, 4, 17), at(2026, 7, 17, 4, 14)),
+        ]:
+            with self.subTest(now=now):
+                hit = detect.scan(
+                    "You've hit your usage limit. Try again at 4:14AM.", now, SP
+                )
+                self.assertIsNotNone(hit)
+                self.assertEqual(hit.reset_at, expected)
+
+    def test_codex_clock_uses_default_timezone(self):
+        hit = detect.scan(
+            "You've hit your usage limit. Try again at 4:14AM.",
+            at(2026, 7, 16, 3), ZoneInfo("UTC"),
+        )
+        self.assertIsNotNone(hit)
+        self.assertEqual(hit.reset_at, datetime(2026, 7, 17, 4, 14, tzinfo=ZoneInfo("UTC")))
+
+    def test_codex_clock_wrapped_with_ansi(self):
+        raw = (
+            "\x1b[2J\x1b[H╭─────────────────────────────╮\r\n"
+            "│ \x1b[31m■ You’ve hit your usage limit.\x1b[0m │\r\n"
+            "│ Upgrade to Pro (https://chatgpt.com/explore/pro), │\r\n"
+            "│ visit https://chatgpt.com/settings/usage to │\r\n"
+            "│ purchase more credits or try │\r\n"
+            "│ again at \x1b[1m4:14\x1b[0m │\r\n"
+            "│ AM. │\r\n"
+            "╰─────────────────────────────╯\r\n"
+        )
+        clean, leftover = detect.strip_ansi_stream(raw)
+        self.assertEqual(leftover, "")
+        hit = detect.scan(detect.normalize(clean), at(2026, 7, 16, 3), SP)
+        self.assertIsNotNone(hit)
+        self.assertEqual(hit.reset_at, at(2026, 7, 16, 4, 14))
+
+    def test_codex_clock_requires_trigger_and_valid_minutes(self):
+        for text in [
+            "Please try again at 4:14 AM.",
+            "You've hit your usage limit. Try again at 4:60 AM.",
+            "You've hit your usage limit. Try again at 4:99AM.",
+        ]:
+            with self.subTest(text=text):
+                self.assertIsNone(detect.scan(text, at(2026, 7, 16, 3), SP))
+
+    def test_absolute_date_takes_precedence_over_clock(self):
+        hit = detect.scan(
+            "You've hit your usage limit. Try again at 4:14 AM. "
+            "Try again at Jul 23rd, 2026 1:16 AM.",
+            at(2026, 7, 16, 3), SP,
+        )
+        self.assertEqual(hit.kind, "absolute")
+        self.assertEqual(hit.reset_at, at(2026, 7, 23, 1, 16))
+
     def test_codex_absolute_date(self):
         now = at(2026, 7, 16, 20, 0)
         hit = detect.scan(detect.normalize(detect.SAMPLES[0]), now, SP)
